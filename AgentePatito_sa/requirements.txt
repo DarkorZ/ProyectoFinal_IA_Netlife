@@ -1,0 +1,10 @@
+#preparacion de los requisitos para el proyecto de AgentePatito_sa
+langchain
+langchain-google-genai
+langchain-chroma
+langchain-text-splitters
+langgraph
+python-dotenv
+streamlit
+pydantic
+pillow

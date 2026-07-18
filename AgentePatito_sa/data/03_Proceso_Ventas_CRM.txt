@@ -1,0 +1,29 @@
+PATITO S.A.
+MANUAL DEL PROCESO DE VENTAS Y USO DEL CRM
+(Documento ficticio para fines de evaluación del semillero)
+Base de conocimiento del Agente de Proceso de Venta y CRM
+
+1. ETAPAS DEL EMBUDO (CRM)
+Prospecto -> Contacto -> Calificación -> Propuesta/Cotización -> Negociación -> Cierre
+(Ganada o Perdida).
+
+2. REGISTRO EN EL CRM
+Toda oportunidad debe registrarse y mantenerse actualizada: datos del cliente, productos de
+interés, monto estimado, etapa y próxima acción.
+
+3. REQUISITOS PARA MARCAR UNA OPORTUNIDAD COMO "GANADA"
+Antes de marcar una oportunidad como ganada, deben registrarse en el CRM:
+- Orden de compra o contrato firmado por el cliente.
+- Datos de facturación completos del cliente.
+- Productos, cantidades y precios finales (con el descuento aplicado y su autorización).
+- Condición de pago (contado o crédito) y plazo acordado.
+- Monto total de la venta y fecha de cierre.
+- Fecha de entrega comprometida.
+
+4. POSVENTA
+Tras el cierre, se coordina la entrega y se registra el caso para seguimiento y satisfacción
+del cliente.
+
+5. BUENAS PRÁCTICAS
+Mantener el CRM actualizado en cada interacción; no dejar oportunidades sin próxima acción
+asignada.

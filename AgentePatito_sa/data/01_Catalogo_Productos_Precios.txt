@@ -1,0 +1,25 @@
+PATITO S.A.
+CATÁLOGO DE PRODUCTOS Y LISTA DE PRECIOS (VIGENTE 2026)
+(Documento ficticio para fines de evaluación del semillero)
+Base de conocimiento del Agente de Catálogo y Precios
+
+Todos los precios están en dólares (USD) e incluyen garantía estándar de 12 meses.
+
+1. LÍNEA PATITO PRO
+- Patito Pro 2026: precio de lista USD 1,299. Disponibilidad: EN STOCK.
+  Características: equipo insignia, procesador de alto rendimiento, 16 GB RAM, 512 GB SSD.
+- Patito Pro Max 2026: precio de lista USD 1,799. Disponibilidad: bajo pedido (15 días).
+
+2. LÍNEA PATITO LITE
+- Patito Lite 2026: precio de lista USD 649. Disponibilidad: EN STOCK.
+- Patito Lite Mini: precio de lista USD 499. Disponibilidad: EN STOCK.
+
+3. ACCESORIOS
+- Funda protectora: USD 39. EN STOCK.
+- Cargador rápido 65W: USD 59. EN STOCK.
+- Mouse inalámbrico Patito: USD 29. EN STOCK.
+
+4. NOTAS
+- Los precios de lista son antes de impuestos y antes de descuentos comerciales.
+- La disponibilidad puede variar; confirmar en el sistema antes de comprometer una entrega.
+- Los productos "bajo pedido" requieren anticipo según la política comercial.

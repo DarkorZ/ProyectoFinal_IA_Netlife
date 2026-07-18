@@ -1,0 +1,32 @@
+#creamos el archivo de gitignore para los commit que no se suba el entorno o la api key
+# Entorno virtual
+.venv/
+
+# Variables de entorno y secretos
+.env
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+
+# VS Code
+.vscode/
+
+# Índices vectoriales generados
+vectorstores/catalogo/*
+vectorstores/politicas/*
+vectorstores/crm/*
+
+# Mantener las carpetas vacías en Git
+!vectorstores/catalogo/.gitkeep
+!vectorstores/politicas/.gitkeep
+!vectorstores/crm/.gitkeep
+
+# Archivos generados por el agente de acción
+outputs/registro_oportunidades.txt
+
+# Archivos temporales
+*.log
+.DS_Store
+Thumbs.db
