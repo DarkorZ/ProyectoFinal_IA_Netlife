@@ -358,3 +358,139 @@ def crear_todos_los_indices() -> dict[str, Chroma]:
     }
 
     return indices
+
+def verificar_indice_existente(
+    ruta_indice: Path,
+    nombre_coleccion: str,
+) -> None:
+    """
+    Verifica que un índice Chroma haya sido generado previamente.
+
+    Args:
+        ruta_indice:
+            Directorio donde debería encontrarse el índice.
+
+        nombre_coleccion:
+            Nombre lógico de la colección Chroma.
+
+    Raises:
+        FileNotFoundError:
+            Si el directorio o el archivo principal de Chroma
+            no existen.
+    """
+
+    if not ruta_indice.exists():
+        raise FileNotFoundError(
+            f"No existe el directorio del índice "
+            f"'{nombre_coleccion}': {ruta_indice}. "
+            "Ejecuta primero: python generar_indices.py"
+        )
+
+    archivo_chroma = ruta_indice / "chroma.sqlite3"
+
+    if not archivo_chroma.exists():
+        raise FileNotFoundError(
+            f"No se encontró chroma.sqlite3 para la colección "
+            f"'{nombre_coleccion}'. "
+            "Ejecuta nuevamente: python generar_indices.py"
+        )
+
+
+def abrir_indice_vectorial(
+    ruta_indice: Path,
+    nombre_coleccion: str,
+    embeddings: Embeddings,
+) -> Chroma:
+    """
+    Abre una colección Chroma previamente generada.
+
+    Esta función no agrega documentos y no vuelve a generar
+    embeddings.
+
+    Args:
+        ruta_indice:
+            Directorio donde está persistido el índice.
+
+        nombre_coleccion:
+            Nombre de la colección Chroma.
+
+        embeddings:
+            Modelo que se utilizará para vectorizar las consultas.
+
+    Returns:
+        Chroma:
+            Índice existente listo para realizar búsquedas.
+    """
+
+    verificar_indice_existente(
+        ruta_indice=ruta_indice,
+        nombre_coleccion=nombre_coleccion,
+    )
+
+    vectorstore = Chroma(
+        collection_name=nombre_coleccion,
+        embedding_function=embeddings,
+        persist_directory=str(ruta_indice),
+    )
+
+    cantidad_documentos = len(
+        vectorstore.get().get("ids", [])
+    )
+
+    if cantidad_documentos == 0:
+        raise ValueError(
+            f"La colección '{nombre_coleccion}' existe, "
+            "pero no contiene documentos."
+        )
+
+    return vectorstore
+
+
+def abrir_todos_los_indices() -> dict[str, Chroma]:
+    """
+    Abre las tres bases vectoriales de Patito S.A.
+
+    Returns:
+        dict[str, Chroma]:
+            Diccionario con los índices de catálogo,
+            políticas y CRM.
+    """
+
+    validar_configuracion()
+
+    embeddings = crear_modelo_embeddings()
+
+    indices = {
+        "catalogo": abrir_indice_vectorial(
+            ruta_indice=VECTORSTORE_CATALOGO,
+            nombre_coleccion=COLECCION_CATALOGO,
+            embeddings=embeddings,
+        ),
+
+        "politicas": abrir_indice_vectorial(
+            ruta_indice=VECTORSTORE_POLITICAS,
+            nombre_coleccion=COLECCION_POLITICAS,
+            embeddings=embeddings,
+        ),
+
+        "crm": abrir_indice_vectorial(
+            ruta_indice=VECTORSTORE_CRM,
+            nombre_coleccion=COLECCION_CRM,
+            embeddings=embeddings,
+        ),
+    }
+
+    return indices
+
+
+def contar_documentos_indice(
+    vectorstore: Chroma,
+) -> int:
+    """
+    Retorna la cantidad de documentos almacenados
+    en una colección Chroma.
+    """
+
+    datos = vectorstore.get()
+
+    return len(datos.get("ids", []))
