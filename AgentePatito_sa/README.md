@@ -1,54 +1,196 @@
-# Ejecucion del proyecto -----------------------------
+# Proyecto Final IA Netlife — Sistema Multiagente Patito S.A.
 
-# Paso a paso para la ejecucion
-# Cómo ejecutar el proyecto en su estado actual
+## Descripción general
 
-Actualmente el proyecto permite:
+Este repositorio contiene el desarrollo del proyecto final del **Semillero de Inteligencia Artificial de Netlife**.
 
-* Validar la conexión con Google Gemini.
-* Validar el modelo de embeddings.
-* Cargar y fragmentar las tres bases de conocimiento.
-* Generar los tres índices vectoriales independientes en ChromaDB.
+El objetivo es construir una solución de inteligencia artificial comercial para la empresa ficticia **Patito S.A.**, utilizando agentes especializados desarrollados con LangChain y Google Gemini.
 
-Los agentes, el orquestador y la interfaz Streamlit todavía se encuentran en desarrollo.
+El sistema debe ser capaz de responder consultas relacionadas con:
+
+* Productos, precios, stock y características.
+* Políticas comerciales, descuentos y crédito.
+* Proceso de ventas y uso del CRM.
+* Consultas que necesiten información de varios dominios.
+* Registro de oportunidades comerciales en una etapa posterior.
+* Procesamiento multimodal como funcionalidad adicional.
+
+El proyecto prioriza una solución:
+
+* Simple.
+* Funcional.
+* Segura.
+* Trazable.
+* Fácil de ejecutar.
+* Fácil de explicar.
+* Extensible para incorporar nuevos agentes.
+
+---
+
+# Estado actual
+
+Actualmente se encuentran completados:
+
+```text
+BLOQUE 1 — Configuración inicial                    COMPLETADO
+
+BLOQUE 2 — Preparación de las bases RAG
+├── 2.1 Carga y fragmentación                       COMPLETADO
+├── 2.2 Generación de índices Chroma                COMPLETADO
+├── 2.3 Apertura de índices existentes              COMPLETADO
+└── 2.4 Recuperación semántica                      COMPLETADO
+
+BLOQUE 3 — Tools de recuperación                    COMPLETADO
+
+BLOQUE 4 — Agentes RAG especializados               COMPLETADO
+
+BLOQUE 5 — Agente orquestador
+├── 5.1 Tools de delegación                         COMPLETADO
+├── 5.2 Creación del orquestador                    COMPLETADO
+├── 5.3 Pruebas simples                             EN VALIDACIÓN
+├── 5.4 Prueba combinada                            PENDIENTE
+└── 5.5 Consulta fuera del sistema                  PENDIENTE
+```
+
+La prueba simple del orquestador ya fue validada correctamente para el Agente de Catálogo.
+
+Las pruebas restantes se pausaron temporalmente porque se alcanzó la cuota diaria gratuita de solicitudes del modelo Gemini utilizado.
+
+---
+
+# Cómo descargar y ejecutar el proyecto
 
 ## 1. Clonar el repositorio
+
+Ejecutar:
 
 ```bash
 git clone https://github.com/DarkorZ/ProyectoFinal_IA_Netlife.git
 ```
 
-Entrar en la carpeta del proyecto:
+Ingresar a la carpeta principal del proyecto:
 
 ```bash
 cd ProyectoFinal_IA_Netlife/AgentePatito_sa
 ```
 
-## 2. Crear el entorno virtual
+La terminal debe estar ubicada en una ruta similar a:
+
+```text
+C:\Users\Usuario\Documents\ProyectoFinal_IA_Netlife\AgentePatito_sa
+```
+
+---
+
+## 2. Verificar la versión de Python
+
+Ejecutar:
+
+```bash
+python --version
+```
+
+Se recomienda utilizar Python 3.10 o superior.
+
+También se puede comprobar qué instalación se está utilizando:
+
+```powershell
+where.exe python
+```
+
+---
+
+## 3. Crear el entorno virtual
+
+Ejecutar desde la raíz del proyecto:
 
 ```bash
 python -m venv .venv
 ```
 
-Activar el entorno virtual en PowerShell:
+Esto creará una carpeta local llamada:
+
+```text
+.venv/
+```
+
+El entorno virtual permite instalar las dependencias del proyecto sin afectar la instalación global de Python.
+
+---
+
+## 4. Activar el entorno virtual
+
+En PowerShell:
 
 ```powershell
 .\.venv\Scripts\Activate.ps1
 ```
 
-Cuando el entorno esté activo, la terminal mostrará:
+Cuando esté activo, la terminal mostrará:
 
 ```text
 (.venv)
 ```
 
-## 3. Actualizar pip y certificados
+Ejemplo:
+
+```text
+(.venv) PS C:\...\AgentePatito_sa>
+```
+
+Si PowerShell bloquea la ejecución, utilizar temporalmente:
+
+```powershell
+Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
+```
+
+Luego volver a activar:
+
+```powershell
+.\.venv\Scripts\Activate.ps1
+```
+
+---
+
+## 5. Seleccionar el intérprete en Visual Studio Code
+
+Abrir la paleta de comandos:
+
+```text
+Ctrl + Shift + P
+```
+
+Seleccionar:
+
+```text
+Python: Select Interpreter
+```
+
+Elegir el intérprete:
+
+```text
+.venv\Scripts\python.exe
+```
+
+Comprobarlo con:
+
+```bash
+python -c "import sys; print(sys.executable)"
+```
+
+La ruta debe apuntar al entorno `.venv`.
+
+---
+
+## 6. Actualizar pip y certificados
+
+Ejecutar:
 
 ```bash
 python -m pip install --upgrade pip certifi
 ```
 
-En caso de errores SSL:
+En caso de errores SSL relacionados con certificados:
 
 ```powershell
 python -m pip install --upgrade pip certifi `
@@ -56,15 +198,35 @@ python -m pip install --upgrade pip certifi `
   --trusted-host files.pythonhosted.org
 ```
 
-También se recomienda verificar que la fecha y hora del computador sean correctas.
+También se debe comprobar que la fecha y hora del computador sean correctas.
 
-## 4. Instalar las dependencias
+Una fecha incorrecta puede provocar errores al validar certificados HTTPS.
+
+---
+
+## 7. Instalar las dependencias
+
+Ejecutar:
 
 ```bash
 pip install -r requirements.txt
 ```
 
-Comprobar las librerías principales:
+Entre las principales librerías utilizadas se encuentran:
+
+```text
+langchain
+langchain-google-genai
+langchain-chroma
+langchain-text-splitters
+langgraph
+python-dotenv
+streamlit
+pydantic
+pillow
+```
+
+Comprobar las instalaciones principales:
 
 ```bash
 pip show langchain
@@ -72,9 +234,11 @@ pip show langchain-google-genai
 pip show langchain-chroma
 ```
 
-## 5. Configurar la API de Google
+---
 
-Crear el archivo:
+## 8. Configurar la API key de Google
+
+Crear un archivo llamado:
 
 ```text
 .env
@@ -88,7 +252,7 @@ Agregar:
 GOOGLE_API_KEY=SU_API_KEY_DE_GOOGLE
 ```
 
-No se deben utilizar comillas ni espacios alrededor del signo igual.
+No utilizar comillas ni espacios alrededor del signo igual.
 
 Ejemplo:
 
@@ -96,19 +260,25 @@ Ejemplo:
 GOOGLE_API_KEY=AIza...
 ```
 
-El archivo `.env` está protegido mediante `.gitignore` y no debe subirse al repositorio.
+El archivo `.env` está protegido mediante `.gitignore` y no debe subirse a GitHub.
 
-También se encuentra disponible:
+El repositorio incluye:
 
 ```text
 .env.example
 ```
 
-como referencia de configuración.
+con el formato:
 
-## 6. Verificar los documentos
+```env
+GOOGLE_API_KEY=coloque_aqui_su_api_key
+```
 
-Los siguientes archivos deben existir dentro de `data/`:
+---
+
+## 9. Verificar los documentos
+
+Dentro de `data/` deben existir:
 
 ```text
 data/
@@ -117,7 +287,13 @@ data/
 └── 03_Proceso_Ventas_CRM.txt
 ```
 
-## 7. Probar la conexión con Gemini
+Cada documento pertenece a un agente diferente.
+
+---
+
+## 10. Probar la conexión con Gemini
+
+Ejecutar:
 
 ```bash
 python tests/test_conexion.py
@@ -125,10 +301,10 @@ python tests/test_conexion.py
 
 Esta prueba valida:
 
+* La existencia de `.env`.
 * La variable `GOOGLE_API_KEY`.
 * La existencia de los documentos.
-* La conexión con Gemini.
-* La respuesta del modelo de chat.
+* La conexión con el modelo generativo.
 * La generación de embeddings.
 * La latencia de las solicitudes.
 
@@ -138,18 +314,15 @@ Resultado esperado:
 TODAS LAS PRUEBAS FINALIZARON CORRECTAMENTE
 ```
 
-## 8. Probar la fragmentación
+---
+
+## 11. Probar la fragmentación
+
+Ejecutar:
 
 ```bash
 python tests/test_fragmentacion.py
 ```
-
-Esta prueba:
-
-* Lee los tres documentos.
-* Los convierte en objetos `Document`.
-* Genera los fragmentos.
-* Verifica los metadatos.
 
 Resultado actual:
 
@@ -166,45 +339,33 @@ Resultado esperado:
 LOS TRES DOCUMENTOS SE FRAGMENTARON CORRECTAMENTE
 ```
 
-## 9. Generar los índices vectoriales
+---
+
+## 12. Generar los índices vectoriales
+
+Ejecutar:
 
 ```bash
 python generar_indices.py
 ```
 
-Este comando:
+Este script:
 
-1. Carga los documentos.
-2. Aplica la estrategia de fragmentación.
-3. Genera embeddings con Google Gemini.
+1. Lee los documentos.
+2. Genera fragmentos.
+3. Crea embeddings.
 4. Limpia índices anteriores.
-5. Crea tres colecciones independientes en ChromaDB.
+5. Genera tres colecciones Chroma.
 6. Guarda los índices localmente.
-
-Los índices se almacenan en:
-
-```text
-vectorstores/
-├── catalogo/
-├── politicas/
-└── crm/
-```
-
-Colecciones generadas:
-
-```text
-patito_catalogo
-patito_politicas
-patito_crm
-```
+7. Verifica la cantidad de registros.
 
 Resultado actual:
 
 ```text
-Catálogo: 3 fragmentos almacenados
-Políticas: 4 fragmentos almacenados
-CRM: 3 fragmentos almacenados
-Total: 10 fragmentos
+Catálogo: 3
+Políticas: 4
+CRM: 3
+Total: 10
 ```
 
 Resultado esperado:
@@ -213,208 +374,244 @@ Resultado esperado:
 LOS TRES ÍNDICES SE GENERARON CORRECTAMENTE
 ```
 
-## 10. Cuándo volver a generar los índices
+---
 
-Se debe ejecutar nuevamente:
+## 13. Abrir los índices existentes
+
+Ejecutar:
 
 ```bash
-python generar_indices.py
+python tests/test_apertura_indices.py
 ```
 
-cuando ocurra alguno de los siguientes cambios:
+Esta prueba confirma que los índices pueden reutilizarse sin volver a generar todos los embeddings.
 
-* Se modifica uno de los documentos TXT.
-* Se cambia `CHUNK_SIZE`.
-* Se cambia `CHUNK_OVERLAP`.
-* Se cambia el modelo de embeddings.
-* Se eliminan las carpetas de `vectorstores`.
-* Se instala el proyecto en otro computador.
-
-## Estado funcional actual
-
-En este checkpoint se encuentra disponible:
+Resultado esperado:
 
 ```text
-✓ Configuración del entorno
-✓ Protección de credenciales
-✓ Conexión con Gemini
-✓ Generación de embeddings
-✓ Carga de documentos
-✓ Fragmentación
-✓ Metadatos de trazabilidad
-✓ Generación de tres índices Chroma
+LOS TRES ÍNDICES SE ABRIERON CORRECTAMENTE
 ```
 
-Todavía no se encuentran disponibles:
+---
+
+## 14. Probar la recuperación semántica
+
+Ejecutar:
+
+```bash
+python tests/test_recuperacion.py
+```
+
+La prueba consulta independientemente:
+
+* Catálogo.
+* Políticas.
+* CRM.
+
+Cada resultado debe mostrar:
+
+* Fuente.
+* Agente.
+* `chunk_id`.
+* Distancia semántica.
+* Contenido recuperado.
+* Latencia.
+
+Resultado esperado:
 
 ```text
-✗ Consultas semánticas desde la aplicación
-✗ Agentes especializados
-✗ Agente orquestador
-✗ Registro de oportunidades
-✗ Agente multimodal
-✗ Interfaz Streamlit
+LAS TRES BASES RECUPERARON FRAGMENTOS CORRECTAMENTE
 ```
 
-Estas funcionalidades se incorporarán en los siguientes bloques del desarrollo.
+---
 
+## 15. Probar las Tools de recuperación
 
+Ejecutar:
 
-# --------------------------------------
+```bash
+python tests/test_tools_recuperacion.py
+```
 
-# Proyecto Final IA — Agente Comercial Patito S.A.
+Esta prueba valida:
 
-## Descripción general
+```text
+consultar_catalogo
+consultar_politicas
+consultar_crm
+```
 
-Este repositorio contiene el desarrollo del proyecto final del **Semillero de Inteligencia Artificial de Netlife**.
+Resultado esperado:
 
-El proyecto consiste en construir una solución de inteligencia artificial para apoyar el proceso comercial ficticio de **Patito S.A.**, utilizando:
-
-* **LangChain** para crear agentes especializados.
-* **Google Gemini** como modelo de lenguaje.
-* **Gemini Embeddings** para representar semánticamente los documentos.
-* **ChromaDB** como base de datos vectorial.
-* **RAG** para recuperar información desde documentos internos.
-* **LangGraph** para memoria y control del flujo de los agentes.
-* **Streamlit** para la interfaz final.
-
-La solución busca demostrar los conocimientos aprendidos durante el Semillero mediante una arquitectura simple, funcional, segura, trazable y fácil de explicar.
+```text
+LAS TRES TOOLS FUNCIONARON CORRECTAMENTE
+```
 
 ---
 
-# Objetivo del proyecto
+## 16. Probar los agentes RAG
 
-Construir un sistema multiagente capaz de responder consultas comerciales relacionadas con:
+Ejecutar:
 
-1. Productos, precios y características.
-2. Políticas comerciales, descuentos y crédito.
-3. Proceso de ventas y registro en CRM.
-4. Registro de oportunidades comerciales.
-5. Análisis de imágenes de productos, como funcionalidad adicional.
+```bash
+python tests/test_agentes_rag.py
+```
 
-Cada agente consulta únicamente su propia base de conocimiento. Cuando una pregunta necesita información de varios documentos, un agente orquestador determina qué especialistas deben participar y consolida sus respuestas.
+Resultado obtenido:
 
----
-
-# Principios de diseño
-
-El desarrollo sigue los siguientes principios:
-
-* Separación entre configuración, modelos, indexación, herramientas, agentes e interfaz.
-* Una base vectorial independiente por agente RAG.
-* Variables de entorno para proteger credenciales.
-* Recuperación de información antes de generar respuestas.
-* Presentación de fuentes y fragmentos utilizados.
-* Respuesta segura cuando la información no está disponible.
-* Trazabilidad de los agentes participantes.
-* Control de errores de conexión, recuperación y generación.
-* Posibilidad de agregar nuevos agentes sin modificar toda la aplicación.
-* Solución simple y comprensible por encima de una implementación innecesariamente compleja.
+```text
+LOS TRES AGENTES RAG FUNCIONARON CORRECTAMENTE
+```
 
 ---
 
-# Arquitectura propuesta
+## 17. Probar límites entre agentes
+
+Ejecutar:
+
+```bash
+python tests/test_limites_agentes.py
+```
+
+Esta prueba confirma que cada agente rechace consultas que correspondan a otro dominio.
+
+Resultado esperado:
+
+```text
+LOS LÍMITES DE LOS AGENTES FUNCIONARON CORRECTAMENTE
+```
+
+---
+
+## 18. Probar el orquestador
+
+Consultas simples:
+
+```bash
+python tests/test_orquestador_simple.py
+```
+
+Consulta combinada:
+
+```bash
+python tests/test_orquestador_mixto.py
+```
+
+Consulta fuera del sistema:
+
+```bash
+python tests/test_orquestador_fuera_alcance.py
+```
+
+Estas pruebas pueden verse limitadas por la cuota gratuita de Gemini.
+
+---
+
+# Arquitectura general
 
 ```mermaid
 flowchart TD
     U[Usuario] --> UI[Interfaz Streamlit]
 
-    UI --> ORQ[Agente Orquestador]
+    UI --> O[Agente Orquestador]
 
-    ORQ --> AC[Agente de Catálogo]
-    ORQ --> AP[Agente de Políticas Comerciales]
-    ORQ --> AR[Agente de CRM]
-    ORQ --> AA[Agente de Acción]
-    ORQ --> AM[Agente Multimodal]
+    O --> DC[Tool delegar_catalogo]
+    O --> DP[Tool delegar_politicas]
+    O --> DR[Tool delegar_crm]
 
-    AC --> TC[Tool de recuperación de catálogo]
-    AP --> TP[Tool de recuperación de políticas]
-    AR --> TR[Tool de recuperación de CRM]
+    DC --> AC[Agente de Catálogo]
+    DP --> AP[Agente de Políticas]
+    DR --> AR[Agente de CRM]
 
-    TC --> VC[(Chroma: Catálogo)]
-    TP --> VP[(Chroma: Políticas)]
-    TR --> VR[(Chroma: CRM)]
+    AC --> TC[Tool consultar_catalogo]
+    AP --> TP[Tool consultar_politicas]
+    AR --> TR[Tool consultar_crm]
 
-    VC --> DC[Catálogo de productos y precios]
-    VP --> DP[Políticas de descuentos y crédito]
-    VR --> DR[Proceso de ventas y CRM]
+    TC --> VC[(Chroma Catálogo)]
+    TP --> VP[(Chroma Políticas)]
+    TR --> VR[(Chroma CRM)]
 
-    AA --> REG[Registro de oportunidades TXT]
-    AM --> IMG[Análisis de imágenes con Gemini]
+    VC --> DOC1[Catálogo de productos y precios]
+    VP --> DOC2[Políticas comerciales]
+    VR --> DOC3[Proceso de ventas y CRM]
 
-    AC --> GEM[Google Gemini]
-    AP --> GEM
-    AR --> GEM
-    ORQ --> GEM
-    AA --> GEM
-    AM --> GEM
+    AC --> G[Google Gemini]
+    AP --> G
+    AR --> G
+    O --> G
 
-    ORQ --> TRAZA[Trazabilidad y monitoreo]
-    TRAZA --> MET[Fuentes, chunks, agentes, latencia, errores y tokens]
+    O --> T[Trazabilidad]
+    T --> M[Fuentes, chunks, agentes, latencia, errores y tokens]
 
-    ORQ --> UI
+    O --> UI
 ```
 
 ---
 
-# Flujo general de una consulta
+# Flujo de una consulta simple
+
+Ejemplo:
+
+```text
+¿Cuáles son los productos disponibles?
+```
+
+Flujo:
 
 ```mermaid
 sequenceDiagram
     actor Usuario
-    participant UI as Streamlit
     participant O as Orquestador
-    participant A as Agente especializado
-    participant R as Retriever
-    participant C as ChromaDB
+    participant D as delegar_catalogo
+    participant A as Agente de Catálogo
+    participant T as consultar_catalogo
+    participant C as Chroma
     participant G as Gemini
 
-    Usuario->>UI: Envía una consulta
-    UI->>O: Entrega la pregunta
-    O->>O: Analiza intención y alcance
-    O->>A: Invoca uno o varios agentes
-    A->>R: Solicita información documental
-    R->>C: Búsqueda semántica top-k
-    C-->>R: Fragmentos relevantes
-    R-->>A: Contenido, fuente y chunk_id
-    A->>G: Genera respuesta basada en contexto
+    Usuario->>O: Consulta de productos
+    O->>D: Delega consulta de catálogo
+    D->>A: Ejecuta agente especializado
+    A->>T: Solicita evidencia documental
+    T->>C: Búsqueda semántica
+    C-->>T: Top-k fragmentos
+    T-->>A: Fuente, chunks y contenido
+    A->>G: Genera respuesta basada en evidencia
     G-->>A: Respuesta especializada
-    A-->>O: Respuesta y trazabilidad
-    O->>O: Consolida los resultados
-    O-->>UI: Respuesta final
-    UI-->>Usuario: Resultado, agentes y fuentes
+    A-->>D: Respuesta y trazabilidad
+    D-->>O: Resultado del especialista
+    O->>G: Consolida respuesta
+    G-->>O: Respuesta final
+    O-->>Usuario: Respuesta, agentes y fuentes
 ```
 
 ---
 
-# Bases de conocimiento
+# Flujo de una consulta combinada
 
-El proyecto utiliza tres documentos independientes:
+Ejemplo:
 
 ```text
-data/
-├── 01_Catalogo_Productos_Precios.txt
-├── 02_Politicas_Comerciales_Descuentos_Credito.txt
-└── 03_Proceso_Ventas_CRM.txt
+¿Cuánto cuesta el producto, qué descuento puede aplicarse
+y cómo se registra la oportunidad?
 ```
 
-Cada documento pertenece exclusivamente a un agente.
+El orquestador debe identificar:
 
-| Documento                       | Agente responsable  | Información permitida                                       |
-| ------------------------------- | ------------------- | ----------------------------------------------------------- |
-| Catálogo de productos y precios | Agente de Catálogo  | Productos, precios, stock y características                 |
-| Políticas comerciales           | Agente de Políticas | Descuentos, crédito, devoluciones y autorizaciones          |
-| Proceso de ventas y CRM         | Agente de CRM       | Embudo comercial, campos obligatorios y proceso de registro |
+```text
+Catálogo
+Políticas Comerciales
+CRM
+```
 
-Los agentes no deben responder preguntas que correspondan a otra base de conocimiento.
+Luego invocar:
 
-Por ejemplo:
+```text
+delegar_catalogo
+delegar_politicas
+delegar_crm
+```
 
-* El agente de Catálogo no debe inventar descuentos.
-* El agente de Políticas no debe inventar precios.
-* El agente de CRM no debe responder características técnicas de productos.
-
-Cuando una pregunta combina varias áreas, el orquestador consulta los agentes correspondientes.
+Finalmente debe consolidar las tres respuestas sin mezclar responsabilidades.
 
 ---
 
@@ -446,161 +643,152 @@ AgentePatito_sa/
 │   ├── config.py
 │   ├── modelos.py
 │   ├── indexacion.py
-│   ├── trazabilidad.py
+│   ├── recuperacion.py
 │   │
 │   ├── agents/
 │   │   ├── __init__.py
 │   │   ├── catalogo_agent.py
 │   │   ├── politicas_agent.py
 │   │   ├── crm_agent.py
-│   │   ├── accion_agent.py
-│   │   ├── multimodal_agent.py
+│   │   ├── utils.py
 │   │   └── orchestrator.py
 │   │
 │   └── tools/
 │       ├── __init__.py
 │       ├── retriever_tools.py
-│       ├── registro_tool.py
-│       └── imagen_tool.py
+│       └── agent_tools.py
 │
 ├── tests/
 │   ├── test_conexion.py
 │   ├── test_fragmentacion.py
+│   ├── test_apertura_indices.py
 │   ├── test_recuperacion.py
-│   ├── test_agentes.py
-│   └── casos_prueba.json
+│   ├── test_tools_recuperacion.py
+│   ├── test_agentes_rag.py
+│   ├── test_limites_agentes.py
+│   ├── test_orquestador_simple.py
+│   ├── test_orquestador_mixto.py
+│   └── test_orquestador_fuera_alcance.py
 │
 ├── outputs/
-│   └── registro_oportunidades.txt
-│
 └── assets/
 ```
 
-Algunos archivos corresponden a etapas futuras y se incorporarán de manera progresiva.
-
 ---
 
-# Desarrollo por bloques
+# Bloque 1 — Configuración inicial
 
-## Bloque 1 — Configuración inicial
+## Objetivo
 
-**Estado: completado**
+Preparar un entorno reproducible y seguro antes de construir agentes.
 
-Este bloque preparó la base técnica del proyecto.
-
-### Actividades realizadas
-
-* Creación del entorno virtual.
-* Instalación de dependencias.
-* Configuración de la API de Google.
-* Protección de credenciales.
-* Creación de la estructura de carpetas.
-* Centralización de parámetros.
-* Validación del modelo generativo.
-* Validación del modelo de embeddings.
-
-### Entorno virtual
-
-```bash
-python -m venv .venv
-```
-
-Activación en PowerShell:
-
-```powershell
-.\.venv\Scripts\Activate.ps1
-```
-
-### Actualización de pip y certificados
-
-```bash
-python -m pip install --upgrade pip certifi
-```
-
-En caso de errores relacionados con certificados:
-
-```powershell
-python -m pip install --upgrade pip certifi `
-  --trusted-host pypi.org `
-  --trusted-host files.pythonhosted.org
-```
-
-También se debe verificar que la fecha y hora del equipo sean correctas, porque una configuración incorrecta puede provocar errores SSL.
-
-### Instalación de dependencias
-
-```bash
-pip install -r requirements.txt
-```
-
-Comprobación:
-
-```bash
-pip show langchain
-pip show langchain-google-genai
-pip show langchain-chroma
-```
-
-### Variables de entorno
-
-El archivo `.env` contiene la credencial real:
-
-```env
-GOOGLE_API_KEY=CLAVE_REAL
-```
-
-El archivo `.env.example` contiene únicamente una plantilla:
-
-```env
-GOOGLE_API_KEY=coloque_aqui_su_api_key
-```
-
-El archivo `.env` se encuentra excluido mediante `.gitignore` y no debe subirse a GitHub.
-
-### Configuración central
-
-Se creó:
+## Archivos principales
 
 ```text
 src/config.py
-```
-
-Este archivo centraliza:
-
-* Rutas del proyecto.
-* Nombre del modelo de chat.
-* Nombre del modelo de embeddings.
-* Temperatura.
-* Reintentos.
-* Tiempo máximo de espera.
-* Tamaño de chunk.
-* Solapamiento.
-* Valor de `top_k`.
-* Rutas de documentos.
-* Rutas de Chroma.
-* Nombres de colecciones.
-* Validaciones iniciales.
-
-### Construcción de modelos
-
-Se creó:
-
-```text
 src/modelos.py
+tests/test_conexion.py
+.env
+.env.example
+.gitignore
+requirements.txt
 ```
 
-Este archivo contiene funciones para construir:
+---
+
+## `src/config.py`
+
+Centraliza:
+
+* Rutas.
+* Modelos.
+* Parámetros.
+* Archivos.
+* Colecciones.
+* Directorios.
+* Validaciones.
+
+Ejemplo de parámetros:
+
+```python
+MODELO_LLM = "gemini-3.5-flash"
+MODELO_EMBEDDING = "models/gemini-embedding-001"
+
+TEMPERATURE = 0.0
+MAX_RETRIES = 2
+TIMEOUT_SEGUNDOS = 60
+
+CHUNK_SIZE = 500
+CHUNK_OVERLAP = 80
+TOP_K = 3
+```
+
+Centralizar evita repetir configuraciones en todos los agentes.
+
+---
+
+## `src/modelos.py`
+
+Contiene:
 
 ```python
 crear_modelo_chat()
 crear_modelo_embeddings()
 ```
 
-La centralización evita repetir la API key y los parámetros dentro de cada agente.
+Los agentes no conocen directamente la API key.
 
-### Modelo generativo
+Solo solicitan un modelo configurado.
 
-Durante la validación se detectó que el modelo inicialmente configurado no estaba disponible para usuarios nuevos.
+Esto mejora:
+
+* Seguridad.
+* Mantenimiento.
+* Reutilización.
+* Facilidad para cambiar modelos.
+
+---
+
+## Error encontrado: variable de embeddings inexistente
+
+Error:
+
+```text
+ImportError: cannot import name 'MODELO_EMBEDDING'
+```
+
+### Causa
+
+En `config.py` no existía una variable con el nombre exacto esperado.
+
+### Corrección
+
+Definir:
+
+```python
+MODELO_EMBEDDING = "models/gemini-embedding-001"
+```
+
+### Aprendizaje
+
+Los nombres importados deben coincidir exactamente con los nombres definidos.
+
+---
+
+## Error encontrado: modelo no disponible
+
+Error:
+
+```text
+404 NOT_FOUND
+gemini-2.5-flash is no longer available to new users
+```
+
+### Causa
+
+El modelo inicialmente configurado ya no estaba disponible para cuentas nuevas.
+
+### Corrección
 
 Se actualizó a:
 
@@ -608,51 +796,29 @@ Se actualizó a:
 MODELO_LLM = "gemini-3.5-flash"
 ```
 
-### Prueba de conexión
+### Aprendizaje
 
-Se creó:
+La disponibilidad de modelos cloud puede cambiar.
 
-```text
-tests/test_conexion.py
-```
-
-La prueba comprueba:
-
-* Existencia de la API key.
-* Existencia de los documentos.
-* Conexión con Gemini.
-* Generación de una respuesta.
-* Generación de embeddings.
-* Dimensión del vector.
-* Latencia de las solicitudes.
-
-La prueba finalizó correctamente.
+Por eso debe definirse el modelo en un único archivo de configuración.
 
 ---
 
-## Bloque 2 — Preparación de las bases RAG
+# Bloque 2 — Preparación de las bases RAG
 
-**Estado: parcialmente completado**
+## Objetivo
 
-Este bloque transforma los documentos en bases de conocimiento consultables mediante recuperación semántica.
+Transformar tres documentos TXT en bases vectoriales independientes.
 
-### Bloque 2.1 — Carga y fragmentación
+---
 
-**Estado: completado**
+## Bloque 2.1 — Carga y fragmentación
 
-Se creó:
+Archivo:
 
 ```text
 src/indexacion.py
 ```
-
-El módulo realiza:
-
-1. Lectura de los documentos TXT.
-2. Validación de archivos vacíos o inexistentes.
-3. Conversión a objetos `Document`.
-4. División en fragmentos.
-5. Inclusión de metadatos de trazabilidad.
 
 Se utilizó:
 
@@ -660,30 +826,38 @@ Se utilizó:
 RecursiveCharacterTextSplitter
 ```
 
-con la configuración:
+Configuración:
 
 ```python
 CHUNK_SIZE = 500
 CHUNK_OVERLAP = 80
-TOP_K = 3
 ```
 
-### Justificación del chunking
+---
 
-Los documentos son pequeños y contienen reglas o descripciones breves.
+## Justificación del tamaño de chunk
 
-Se eligieron 500 caracteres para:
+Se utilizaron 500 caracteres porque:
 
-* Mantener suficiente contexto.
-* Evitar enviar documentos completos al modelo.
-* Recuperar información concreta.
-* Reducir contenido irrelevante.
+* Los documentos son pequeños.
+* Las reglas son breves.
+* No se necesita enviar el documento completo.
+* Facilita recuperar secciones concretas.
+* Reduce texto irrelevante.
 
-Se utilizaron 80 caracteres de solapamiento para reducir la posibilidad de dividir una regla importante entre dos fragmentos.
+---
 
-### Metadatos
+## Justificación del solapamiento
 
-Cada fragmento incluye:
+Se utilizaron 80 caracteres para conservar continuidad entre fragmentos.
+
+Esto ayuda cuando una regla comienza al final de un chunk y termina en el siguiente.
+
+---
+
+## Metadatos de los fragmentos
+
+Cada chunk contiene:
 
 ```text
 source
@@ -693,46 +867,41 @@ chunk_id
 characters
 ```
 
-Estos metadatos serán utilizados para mostrar:
+Ejemplo:
 
-* Documento consultado.
-* Agente responsable.
-* Número del fragmento.
-* Texto recuperado.
-* Evidencia utilizada en la respuesta.
+```python
+{
+    "source": "01_Catalogo_Productos_Precios.txt",
+    "agent": "catalogo",
+    "document_type": "base_conocimiento",
+    "chunk_id": 2,
+    "characters": 487
+}
+```
 
-### Resultado de la fragmentación
+Esto permite mostrar evidencia en cada respuesta.
+
+---
+
+## Resultado
 
 ```text
 Catálogo: 3 fragmentos
 Políticas: 4 fragmentos
 CRM: 3 fragmentos
-Total: 10 fragmentos
+Total: 10
 ```
-
-Se creó:
-
-```text
-tests/test_fragmentacion.py
-```
-
-La prueba finalizó correctamente.
 
 ---
 
-### Bloque 2.2 — Generación de índices Chroma
+## Bloque 2.2 — Generación de índices Chroma
 
-**Estado: completado**
-
-Cada grupo de fragmentos fue convertido en embeddings y almacenado en una colección Chroma independiente.
-
-Se generaron:
+Se crearon:
 
 ```text
-vectorstores/
-├── catalogo/
-├── politicas/
-└── crm/
+vectorstores/catalogo/
+vectorstores/politicas/
+vectorstores/crm/
 ```
 
 Colecciones:
@@ -743,29 +912,17 @@ patito_politicas
 patito_crm
 ```
 
-Se creó:
+Script:
 
 ```text
 generar_indices.py
 ```
 
-Ejecución:
+Los índices anteriores se eliminan antes de reconstruirlos para evitar duplicados.
 
-```bash
-python generar_indices.py
-```
+---
 
-El script:
-
-1. Carga los documentos.
-2. Genera los fragmentos.
-3. Elimina índices anteriores.
-4. Genera identificadores reproducibles.
-5. Convierte los fragmentos en embeddings.
-6. Guarda los vectores en Chroma.
-7. Verifica la cantidad almacenada.
-
-### Identificadores de fragmentos
+## Identificadores reproducibles
 
 Ejemplos:
 
@@ -776,100 +933,82 @@ politicas-chunk-1
 crm-chunk-3
 ```
 
-### Resultado de la indexación
-
-```text
-Catálogo: 3 fragmentos almacenados
-Políticas: 4 fragmentos almacenados
-CRM: 3 fragmentos almacenados
-Total: 10 fragmentos
-Tiempo total: 2.44 segundos
-```
+Son preferibles a identificadores aleatorios porque facilitan la auditoría.
 
 ---
 
-### Bloque 2.3 — Apertura de índices existentes
+## Bloque 2.3 — Apertura de índices
 
-**Estado: pendiente**
+La aplicación no reconstruye los índices cada vez que inicia.
 
-Se crearán funciones para abrir los índices persistidos sin volver a generar embeddings.
+Se abren mediante:
 
-El sistema deberá validar:
-
-* Que las carpetas existan.
-* Que los archivos internos de Chroma estén disponibles.
-* Que cada colección tenga documentos.
-* Que el usuario haya ejecutado previamente `generar_indices.py`.
-
-La aplicación no deberá reconstruir los índices cada vez que se inicie.
-
-Flujo esperado:
-
-```text
-Inicio de aplicación
-        ↓
-Validación de índices
-        ↓
-Apertura de Chroma
-        ↓
-Índices listos para búsqueda
+```python
+abrir_todos_los_indices()
 ```
+
+Esto evita:
+
+* Repetir embeddings.
+* Consumir API innecesariamente.
+* Incrementar el tiempo de inicio.
+* Duplicar fragmentos.
 
 ---
 
-### Bloque 2.4 — Recuperación semántica
+## Bloque 2.4 — Recuperación semántica
 
-**Estado: pendiente**
-
-Se probará cada base de forma independiente antes de construir los agentes.
-
-Ejemplos:
+Archivo:
 
 ```text
-Consulta sobre precio
-        ↓
-Índice de catálogo
+src/recuperacion.py
 ```
+
+Función principal:
+
+```python
+buscar_en_indice()
+```
+
+Utiliza:
+
+```python
+similarity_search_with_score()
+```
+
+Resultados:
 
 ```text
-Consulta sobre descuento
-        ↓
-Índice de políticas
+posición
+contenido
+fuente
+agente
+chunk_id
+caracteres
+distancia
 ```
 
-```text
-Consulta sobre etapa de venta
-        ↓
-Índice de CRM
-```
+Una distancia menor representa mayor cercanía semántica.
 
-Las pruebas deberán mostrar:
+Sin embargo, una distancia baja no garantiza por sí sola que exista información suficiente.
 
-* Consulta realizada.
-* Fragmentos recuperados.
-* Fuente.
-* `chunk_id`.
-* Agente propietario.
-* Puntaje de similitud o relevancia.
-* Tiempo de recuperación.
-
-El objetivo es confirmar que cada índice recupera información únicamente desde su documento.
+Por eso el control de alucinaciones también depende de prompts y validaciones.
 
 ---
 
-## Bloque 3 — Herramientas de recuperación
+# Bloque 3 — Tools de recuperación
 
-**Estado: pendiente**
+## Objetivo
 
-Se crearán herramientas LangChain para que los agentes consulten sus bases.
+Exponer los retrievers como herramientas de LangChain.
 
-Archivo principal:
+Archivo:
 
 ```text
 src/tools/retriever_tools.py
 ```
 
-Herramientas propuestas:
+Tools:
 
 ```text
 consultar_catalogo
@@ -877,126 +1016,243 @@ consultar_politicas
 consultar_crm
 ```
 
-Cada herramienta deberá:
+Cada tool:
 
-1. Recibir una pregunta.
-2. Consultar su índice.
-3. Recuperar los fragmentos más relevantes.
-4. Devolver contenido y metadatos.
-5. Indicar cuando no existe información suficiente.
-6. Evitar consultar documentos de otros agentes.
-
-Ejemplo de salida interna:
-
-```text
-Agente: catalogo
-Fuente: 01_Catalogo_Productos_Precios.txt
-Chunk: 2
-Contenido: ...
-```
-
-Estas herramientas funcionarán como puente entre los agentes y Chroma.
+1. Recibe una consulta.
+2. Abre o reutiliza los índices.
+3. Consulta únicamente su base.
+4. Recupera `top_k=3`.
+5. Devuelve fuentes, chunks y contenido.
+6. Controla errores.
 
 ---
 
-## Bloque 4 — Agentes RAG especializados
+## Reutilización de índices
 
-**Estado: pendiente**
+Se utiliza:
 
-Se crearán tres agentes LangChain independientes.
+```python
+@lru_cache(maxsize=1)
+```
 
-### Agente de Catálogo
+Esto permite abrir los índices una sola vez por proceso.
 
-Archivo:
+---
+
+## Formato interno
+
+```text
+ESTADO: OK
+BASE_CONSULTADA: catalogo
+CONSULTA: ...
+FRAGMENTOS_RECUPERADOS: 3
+
+<fragmento>
+FUENTE: ...
+AGENTE: ...
+CHUNK_ID: ...
+DISTANCIA: ...
+CONTENIDO:
+...
+</fragmento>
+```
+
+Los fragmentos se delimitan para indicar que deben tratarse como datos y no como instrucciones.
+
+---
+
+# Bloque 4 — Agentes RAG especializados
+
+## Objetivo
+
+Crear tres agentes LangChain independientes.
+
+Archivos:
 
 ```text
 src/agents/catalogo_agent.py
-```
-
-Responsabilidades:
-
-* Consultar productos.
-* Consultar precios.
-* Consultar stock.
-* Consultar características técnicas.
-
-Restricciones:
-
-* No inventar descuentos.
-* No responder reglas de crédito.
-* No responder procedimientos CRM.
-
----
-
-### Agente de Políticas Comerciales
-
-Archivo:
-
-```text
 src/agents/politicas_agent.py
-```
-
-Responsabilidades:
-
-* Consultar descuentos.
-* Consultar niveles de autorización.
-* Consultar políticas de crédito.
-* Consultar devoluciones y garantías.
-
-Restricciones:
-
-* No inventar precios.
-* No responder características de productos.
-* No registrar oportunidades.
-
----
-
-### Agente de CRM
-
-Archivo:
-
-```text
 src/agents/crm_agent.py
 ```
 
-Responsabilidades:
-
-* Consultar etapas del embudo.
-* Consultar campos obligatorios.
-* Consultar procedimientos de ventas.
-* Consultar requisitos para cerrar oportunidades.
-
-Restricciones:
-
-* No inventar precios.
-* No aprobar descuentos.
-* No modificar registros directamente.
-
----
-
-### Estructura de respuesta esperada
-
-Cada agente deberá devolver:
+Cada agente incluye:
 
 ```text
-Respuesta
-Advertencias
-Fuente
-Fragmentos utilizados
-Agente responsable
-```
-
-Si la documentación no contiene la respuesta:
-
-```text
-No se encontró información suficiente en la base de conocimiento asignada.
+Google Gemini
+System prompt
+Una sola tool
+Base RAG independiente
+Reglas de seguridad
+Control de alucinaciones
+Formato de respuesta
 ```
 
 ---
 
-## Bloque 5 — Agente orquestador
+## Agente de Catálogo
 
-**Estado: pendiente**
+Puede responder:
+
+* Productos.
+* Precios.
+* Stock.
+* Disponibilidad.
+* Características.
+
+No puede responder:
+
+* Descuentos.
+* Crédito.
+* Políticas.
+* CRM.
+
+Tool:
+
+```text
+consultar_catalogo
+```
+
+---
+
+## Agente de Políticas
+
+Puede responder:
+
+* Descuentos.
+* Autorizaciones.
+* Crédito.
+* Condiciones de pago.
+* Garantías.
+* Devoluciones.
+
+No puede responder:
+
+* Precios.
+* Stock.
+* Características.
+* CRM.
+
+Tool:
+
+```text
+consultar_politicas
+```
+
+---
+
+## Agente de CRM
+
+Puede responder:
+
+* Etapas del embudo.
+* Proceso de ventas.
+* Campos obligatorios.
+* Requisitos para oportunidades.
+* Procedimientos CRM.
+
+No puede responder:
+
+* Precios.
+* Productos.
+* Descuentos.
+* Crédito.
+
+Tool:
+
+```text
+consultar_crm
+```
+
+---
+
+## Formato de respuesta
+
+```text
+RESPUESTA:
+...
+
+ADVERTENCIAS:
+...
+
+FUENTES:
+- Documento.
+- Chunks.
+```
+
+Cuando la información no existe:
+
+```text
+INFORMACION_INSUFICIENTE:
+No se encontró información suficiente...
+```
+
+Cuando la pregunta pertenece a otro agente:
+
+```text
+FUERA_DE_ALCANCE:
+Esta consulta corresponde a otro agente especializado.
+
+AGENTE_RECOMENDADO:
+...
+```
+
+---
+
+## Error encontrado: agente de políticas incorrecto
+
+Error:
+
+```text
+ImportError: cannot import name 'crear_agente_politicas'
+```
+
+### Causa
+
+`politicas_agent.py` contenía accidentalmente una copia del agente de Catálogo.
+
+Además, intentaba importarse a sí mismo:
+
+```python
+from src.agents.politicas_agent import crear_agente_politicas
+```
+
+### Corrección
+
+Se reemplazó el archivo por el agente correcto:
+
+```python
+consultar_politicas
+SYSTEM_PROMPT_POLITICAS
+crear_agente_politicas
+name="agente_politicas"
+```
+
+### Aprendizaje
+
+Cada agente debe conservar:
+
+* Nombre propio.
+* Prompt propio.
+* Tool propia.
+* Función constructora propia.
+
+Un módulo no debe importarse a sí mismo.
+
+---
+
+## Resultados
+
+```text
+LOS TRES AGENTES RAG FUNCIONARON CORRECTAMENTE
+```
+
+---
+
+# Bloque 5 — Agente orquestador
+
+## Objetivo
+
+Crear un agente principal capaz de decidir qué especialistas utilizar.
 
 Archivo:
 
@@ -1004,223 +1260,544 @@ Archivo:
 src/agents/orchestrator.py
 ```
 
-El orquestador será el punto central de la solución.
+El orquestador no consulta Chroma directamente.
 
-Responsabilidades:
-
-1. Recibir la consulta del usuario.
-2. Analizar qué tipo de información necesita.
-3. Seleccionar uno o varios agentes.
-4. Invocar las herramientas correspondientes.
-5. Consolidar los resultados.
-6. Mostrar los agentes utilizados.
-7. Mostrar fuentes y fragmentos.
-8. Evitar responder directamente con información no validada.
-
-Ejemplo de consulta simple:
+Su flujo es:
 
 ```text
-¿Cuánto cuesta el producto X?
+Orquestador
+    ↓
+Tool de delegación
+    ↓
+Agente especializado
+    ↓
+Tool RAG
+    ↓
+Chroma
 ```
-
-Agente utilizado:
-
-```text
-Catálogo
-```
-
-Ejemplo de consulta combinada:
-
-```text
-¿Cuánto cuesta el producto X, qué descuento puedo ofrecer
-y cómo registro la oportunidad?
-```
-
-Agentes utilizados:
-
-```text
-Catálogo
-Políticas Comerciales
-CRM
-```
-
-El orquestador no reemplaza a los agentes especializados; su función es coordinar el trabajo.
 
 ---
 
-## Bloque 6 — Agentes adicionales
-
-**Estado: pendiente**
-
-La solución incluirá al menos un agente adicional.
-
-### Bloque 6.1 — Agente de acción
+## Tools de delegación
 
 Archivo:
 
 ```text
-src/agents/accion_agent.py
+src/tools/agent_tools.py
 ```
 
-Herramienta:
+Tools:
 
 ```text
-src/tools/registro_tool.py
+delegar_catalogo
+delegar_politicas
+delegar_crm
 ```
 
-Permitirá registrar una oportunidad comercial en:
+Estas herramientas ejecutan agentes completos.
+
+---
+
+## Diferencia entre los dos niveles de Tools
+
+### Tools RAG
+
+```text
+consultar_catalogo
+consultar_politicas
+consultar_crm
+```
+
+Son utilizadas por los agentes especializados.
+
+### Tools de delegación
+
+```text
+delegar_catalogo
+delegar_politicas
+delegar_crm
+```
+
+Son utilizadas por el orquestador.
+
+---
+
+## Conservación de evidencia
+
+Inicialmente, las tools de delegación devolvían únicamente la respuesta redactada por el especialista.
+
+Esto provocó un error:
+
+```text
+El resultado del especialista no contiene la fuente esperada
+```
+
+### Causa
+
+Aunque la tool RAG había devuelto la fuente exacta, el agente especializado podía resumirla u omitirla.
+
+La trazabilidad dependía de que Gemini copiara correctamente el nombre del documento.
+
+### Corrección
+
+Se añadió:
+
+```python
+obtener_resultados_tools()
+```
+
+Ahora la tool de delegación devuelve:
+
+```text
+RESPUESTA_ESPECIALISTA:
+...
+
+EVIDENCIA_RAG:
+...
+```
+
+La evidencia original conserva:
+
+* Fuentes.
+* Chunks.
+* Distancias.
+* Contenido documental.
+
+### Aprendizaje
+
+La trazabilidad no debe depender únicamente del texto generado por el modelo.
+
+Debe conservarse la evidencia original de las tools.
+
+---
+
+## Formato del orquestador
+
+```text
+RESPUESTA_FINAL:
+...
+
+AGENTES_UTILIZADOS:
+- ...
+
+FUENTES:
+- ...
+
+ADVERTENCIAS:
+...
+```
+
+---
+
+## Primera validación correcta
+
+El caso de Catálogo funcionó:
+
+```text
+Tools utilizadas: ['delegar_catalogo']
+Estado: correcto
+```
+
+Esto demostró el flujo completo:
+
+```text
+Orquestador
+→ Tool de delegación
+→ Agente de Catálogo
+→ Tool RAG
+→ Chroma
+→ Gemini
+→ Respuesta consolidada
+```
+
+---
+
+# Errores de cuota de Gemini
+
+## Error por minuto
+
+Error:
+
+```text
+429 RESOURCE_EXHAUSTED
+GenerateRequestsPerMinute
+limit: 5
+```
+
+### Causa
+
+Una pregunta al orquestador puede generar varias llamadas:
+
+```text
+1. Orquestador analiza.
+2. Orquestador delega.
+3. Especialista decide usar su tool.
+4. Especialista redacta.
+5. Orquestador consolida.
+```
+
+Por eso una sola consulta puede consumir varias solicitudes.
+
+### Corrección temporal
+
+Se añadió una pausa:
+
+```python
+PAUSA_ENTRE_CASOS = 65
+```
+
+entre los casos de prueba.
+
+Esto ayuda únicamente para límites por minuto.
+
+---
+
+## Error por día
+
+Error:
+
+```text
+GenerateRequestsPerDayPerProjectPerModel-FreeTier
+quotaValue: 20
+```
+
+### Causa
+
+Se agotó la cuota diaria gratuita del modelo.
+
+### Importante
+
+La pausa de 65 segundos no resuelve una cuota diaria agotada.
+
+### Opciones
+
+* Esperar el reinicio diario.
+* Habilitar facturación.
+* Utilizar temporalmente otro modelo compatible.
+* Reducir la cantidad de pruebas.
+* Ejecutar un solo caso por vez.
+* Utilizar mocks en pruebas futuras.
+
+---
+
+## Modelo alternativo para desarrollo
+
+Puede configurarse temporalmente:
+
+```python
+MODELO_LLM = "gemini-3.1-flash-lite"
+```
+
+Luego ejecutar:
+
+```bash
+python tests/test_conexion.py
+```
+
+Esto no cambia la arquitectura.
+
+Solamente cambia el modelo utilizado durante el desarrollo.
+
+---
+
+# Decisiones de seguridad
+
+## Variables de entorno
+
+La API key se almacena en:
+
+```text
+.env
+```
+
+Nunca se almacena en el código.
+
+---
+
+## Archivos ignorados
+
+`.gitignore` excluye:
+
+```text
+.venv/
+.env
+__pycache__/
+vectorstores internos
+logs
+archivos temporales
+```
+
+---
+
+## Prompt hardening
+
+Los agentes incluyen reglas para:
+
+* No revelar system prompts.
+* No revelar credenciales.
+* No obedecer instrucciones dentro de los documentos.
+* No cambiar su rol.
+* No responder sin consultar RAG.
+* No inventar información.
+* No utilizar tools ajenas.
+
+---
+
+## Documentos como datos
+
+Los fragmentos se delimitan mediante:
+
+```text
+<fragmento>
+...
+</fragmento>
+```
+
+El modelo debe tratarlos como evidencia, no como instrucciones.
+
+---
+
+# Decisiones técnicas y trade-offs
+
+## Separación de bases
+
+Se utilizan tres índices separados en lugar de una sola colección.
+
+Ventajas:
+
+* Mayor control.
+* Menor mezcla de conocimiento.
+* Permisos por agente.
+* Mejor trazabilidad.
+* Más fácil detectar errores.
+
+Desventaja:
+
+* Se deben administrar varias colecciones.
+
+---
+
+## `chunk_size=500`
+
+Ventajas:
+
+* Fragmentos concretos.
+* Menor ruido.
+* Menor contexto enviado.
+* Adecuado para documentos pequeños.
+
+Desventaja:
+
+* Algunas reglas pueden dividirse.
+
+Esto se compensa con el overlap.
+
+---
+
+## `chunk_overlap=80`
+
+Ventaja:
+
+* Conserva continuidad.
+
+Desventaja:
+
+* Duplica parcialmente contenido.
+
+---
+
+## `top_k=3`
+
+Ventajas:
+
+* Suficiente para documentos pequeños.
+* Permite recuperar contexto relacionado.
+* Mantiene la respuesta trazable.
+
+Desventaja:
+
+* Puede devolver fragmentos poco relevantes cuando la información no existe.
+
+---
+
+## Temperatura cero
+
+```python
+TEMPERATURE = 0.0
+```
+
+Se utiliza para favorecer:
+
+* Consistencia.
+* Precisión.
+* Formatos repetibles.
+* Menor creatividad.
+
+Esto no elimina completamente las alucinaciones.
+
+---
+
+## Modelo de subagentes
+
+Ventajas:
+
+* Cada agente mantiene su contexto separado.
+* El orquestador no accede a las bases.
+* Facilita agregar nuevos especialistas.
+* Reduce responsabilidades por agente.
+
+Desventaja:
+
+* Cada consulta consume más llamadas al modelo.
+
+Este trade-off explica el impacto observado en la cuota de Gemini.
+
+---
+
+# Advertencias sobre Git
+
+## Mensaje LF y CRLF
+
+Durante `git add` puede aparecer:
+
+```text
+LF will be replaced by CRLF
+```
+
+Esto es una advertencia normal en Windows.
+
+No significa que el commit haya fallado.
+
+---
+
+## `.env.example` detectado como rename
+
+Git interpretó inicialmente:
+
+```text
+.env.example => src/__init__.py
+```
+
+porque ambos archivos estaban vacíos.
+
+### Corrección
+
+Se agregó contenido a `.env.example`:
+
+```env
+GOOGLE_API_KEY=coloque_aqui_su_api_key
+```
+
+Esto evita que Git lo trate como un archivo vacío equivalente.
+
+---
+
+## Verificar antes de hacer commit
+
+Ejecutar:
+
+```bash
+git status
+```
+
+No deben aparecer:
+
+```text
+.env
+.venv/
+chroma.sqlite3
+```
+
+Sí deben aparecer:
+
+```text
+README.md
+requirements.txt
+.env.example
+src/
+tests/
+generar_indices.py
+```
+
+---
+
+# Comandos de Git
+
+Agregar cambios:
+
+```bash
+git add .
+```
+
+Crear commit:
+
+```bash
+git commit -m "Actualiza agentes RAG y orquestador"
+```
+
+Subir:
+
+```bash
+git push origin main
+```
+
+No es necesario salir del entorno virtual para utilizar Git.
+
+---
+
+# Próximos bloques
+
+## Finalizar Bloque 5
+
+Pendiente:
+
+```text
+Prueba simple de Políticas
+Prueba simple de CRM
+Consulta combinada
+Consulta fuera del sistema
+```
+
+---
+
+## Bloque 6 — Agente de acción
+
+Permitirá registrar oportunidades en:
 
 ```text
 outputs/registro_oportunidades.txt
 ```
 
-Flujo:
+Incluirá:
 
-```text
-Solicitud del usuario
-        ↓
-Validación de campos
-        ↓
-Solicitud de información faltante
-        ↓
-Confirmación del usuario
-        ↓
-Registro
-        ↓
-ID único y fecha
-```
-
-El agente deberá:
-
-* Validar campos obligatorios.
-* No registrar datos incompletos.
-* Solicitar confirmación.
-* Evitar duplicados.
-* Generar un identificador único.
-* Guardar fecha y hora.
-* Informar el resultado de la acción.
-
----
-
-### Bloque 6.2 — Agente multimodal
-
-Archivo:
-
-```text
-src/agents/multimodal_agent.py
-```
-
-Herramienta:
-
-```text
-src/tools/imagen_tool.py
-```
-
-Permitirá recibir una imagen y utilizar Gemini para identificar información visual.
-
-Flujo propuesto:
-
-```text
-Imagen
-   ↓
-Gemini multimodal
-   ↓
-Descripción o identificación
-   ↓
-Consulta al agente de Catálogo
-   ↓
-Validación contra documentación
-```
-
-La salida visual no se aceptará directamente como verdad. Debe verificarse contra la base de conocimiento de catálogo.
-
-Esta funcionalidad será adicional y no deberá dificultar la ejecución principal.
+* Validación de campos.
+* Solicitud de datos faltantes.
+* Confirmación.
+* Identificador único.
+* Fecha y hora.
+* Prevención de duplicados.
 
 ---
 
 ## Bloque 7 — Memoria, seguridad y trazabilidad
 
-**Estado: pendiente**
+Se incorporará:
 
-### Memoria conversacional
-
-Se utilizará:
-
-```python
+```text
 InMemorySaver
-```
-
-Cada conversación tendrá un:
-
-```text
 thread_id
-```
-
-Esto permitirá mantener contexto entre preguntas relacionadas.
-
----
-
-### Seguridad
-
-Se implementarán reglas para:
-
-* No exponer la API key.
-* No imprimir variables sensibles.
-* No revelar el system prompt.
-* No obedecer instrucciones externas que contradigan las reglas.
-* Tratar documentos recuperados como datos, no como comandos.
-* Validar información antes de ejecutar acciones.
-* No registrar información sensible en logs.
-* Responder de forma segura ante errores o falta de información.
-
----
-
-### Permisos propuestos
-
-El proyecto documentará un modelo de permisos por agente:
-
-| Rol               | Catálogo | Políticas | CRM | Acción |
-| ----------------- | -------: | --------: | --: | -----: |
-| Usuario comercial |       Sí |  Limitado |  Sí |     Sí |
-| Supervisor        |       Sí |        Sí |  Sí |     Sí |
-| Administrador     |       Sí |        Sí |  Sí |     Sí |
-
-No es obligatorio implementar autenticación completa, pero se documentará cómo podría restringirse el acceso a herramientas y documentos.
-
----
-
-### Trazabilidad
-
-Cada respuesta podrá registrar:
-
-```text
-timestamp
-consulta
-agentes participantes
-modelo utilizado
-fuentes
-chunk_id
-cantidad de fragmentos
 latencia
-resultado
-error
-```
-
-No se almacenará:
-
-```text
-API key
-system prompt
-cabeceras de autenticación
-vectores completos
-información sensible innecesaria
+tokens
+errores
+feedback
+agentes participantes
+fuentes
+chunks
 ```
 
 ---
 
 ## Bloque 8 — Interfaz Streamlit
-
-**Estado: pendiente**
 
 Archivo:
 
@@ -1228,196 +1805,77 @@ Archivo:
 app.py
 ```
 
-La interfaz permitirá:
+Permitirá:
 
-* Escribir consultas.
-* Visualizar respuestas.
-* Mantener el historial.
-* Mostrar agentes participantes.
+* Consultar el sistema.
+* Mantener historial.
 * Mostrar fuentes.
-* Mostrar fragmentos recuperados.
-* Cargar imágenes.
+* Mostrar agentes.
 * Confirmar acciones.
 * Mostrar errores controlados.
-* Reiniciar una conversación.
 
-La interfaz se mantendrá sencilla, funcional y fácil de presentar.
+---
 
-Ejecución esperada:
+## Bloque 9 — Pruebas integrales
 
-```bash
-streamlit run app.py
+Casos:
+
+```text
+Consulta de catálogo
+Consulta de políticas
+Consulta de CRM
+Consulta combinada
+Información inexistente
+Consulta fuera de alcance
+Error de API
+Índice inexistente
+Registro incompleto
+Registro duplicado
+Prompt injection
 ```
 
 ---
 
-## Bloque 9 — Pruebas y evaluación
+## Bloque 10 — Entrega
 
-**Estado: pendiente**
+Incluirá:
 
-Se implementará una matriz de pruebas que cubra:
-
-1. Consulta de catálogo.
-2. Consulta de políticas.
-3. Consulta de CRM.
-4. Consulta combinada.
-5. Pregunta fuera de alcance.
-6. Información inexistente.
-7. Falta de información para una acción.
-8. Confirmación de registro.
-9. Prevención de duplicados.
-10. Consulta con imagen.
-11. Error de API.
-12. Índice vectorial inexistente.
-
-### Métricas propuestas
-
-* Exactitud documental.
-* Fuente correcta.
-* Fragmento correcto.
-* Control de alucinaciones.
-* Tiempo de recuperación.
-* Tiempo total de respuesta.
-* Número de agentes invocados.
-* Cantidad de tokens.
-* Errores por consulta.
-* Feedback del usuario.
-
----
-
-## Bloque 10 — Documentación y entrega final
-
-**Estado: pendiente**
-
-La etapa final incluirá:
-
-* README completo.
-* Explicación de arquitectura.
-* Instrucciones de instalación.
-* Procedimiento para crear índices.
-* Procedimiento para iniciar la aplicación.
-* Justificación del modelo Gemini.
-* Justificación del modelo de embeddings.
-* Justificación del chunking.
-* Justificación de `top_k`.
-* Explicación de trade-offs.
-* Control de alucinaciones.
-* Propuesta de permisos.
-* Propuesta de monitoreo.
+* README final.
+* Documento técnico.
+* Diagramas.
 * Matriz de pruebas.
-* Capturas de funcionamiento.
-* Documento final.
+* Capturas.
 * Video de demostración.
-* Revisión del repositorio de GitHub.
+* Repositorio final.
 
 ---
 
-# Estado actual del proyecto
+# Checkpoint actual
+
+El sistema ya demuestra:
 
 ```text
-BLOQUE 1 — Configuración inicial
-└── Completado
-
-BLOQUE 2 — Preparación de las bases RAG
-├── 2.1 Carga y fragmentación
-│   └── Completado
-├── 2.2 Generación de índices Chroma
-│   └── Completado
-├── 2.3 Apertura de índices existentes
-│   └── Pendiente
-└── 2.4 Recuperación semántica
-    └── Pendiente
-
-BLOQUE 3 — Herramientas de recuperación
-└── Pendiente
-
-BLOQUE 4 — Agentes RAG especializados
-└── Pendiente
-
-BLOQUE 5 — Orquestador
-└── Pendiente
-
-BLOQUE 6 — Agentes adicionales
-└── Pendiente
-
-BLOQUE 7 — Memoria, seguridad y trazabilidad
-└── Pendiente
-
-BLOQUE 8 — Interfaz Streamlit
-└── Pendiente
-
-BLOQUE 9 — Pruebas y métricas
-└── Pendiente
-
-BLOQUE 10 — Documentación y entrega
-└── Pendiente
+✓ Configuración centralizada
+✓ Variables de entorno
+✓ Conexión con Gemini
+✓ Embeddings
+✓ Tres documentos
+✓ Fragmentación
+✓ Tres índices Chroma
+✓ Persistencia
+✓ Recuperación semántica
+✓ Tres Tools RAG
+✓ Tres agentes LangChain
+✓ Separación de responsabilidades
+✓ Fuentes y chunks
+✓ Control de alucinaciones
+✓ Tools de delegación
+✓ Agente orquestador
+✓ Orquestación correcta para Catálogo
 ```
 
----
-
-# Ejecución actual
-
-## Crear entorno
-
-```bash
-python -m venv .venv
-```
-
-## Activar entorno
-
-```powershell
-.\.venv\Scripts\Activate.ps1
-```
-
-## Instalar dependencias
-
-```bash
-pip install -r requirements.txt
-```
-
-## Configurar API key
-
-Crear `.env`:
-
-```env
-GOOGLE_API_KEY=CLAVE_REAL
-```
-
-## Probar conexión
-
-```bash
-python tests/test_conexion.py
-```
-
-## Probar fragmentación
-
-```bash
-python tests/test_fragmentacion.py
-```
-
-## Generar índices
-
-```bash
-python generar_indices.py
-```
-
----
-
-# Resultados obtenidos hasta el checkpoint actual
+Pendiente de reanudar cuando exista cuota:
 
 ```text
-Conexión Gemini: correcta
-Embeddings: correctos
-Documentos cargados: 3
-Fragmentos generados: 10
-Índices Chroma generados: 3
-Fragmentos almacenados: 10
-Tiempo de indexación: 2.44 segundos
-```
-
-El siguiente paso del desarrollo corresponde a:
-
-```text
-Bloque 2.3 — Apertura de los índices existentes
-Bloque 2.4 — Pruebas de recuperación semántica
+Pruebas restantes del orquestador
 ```
