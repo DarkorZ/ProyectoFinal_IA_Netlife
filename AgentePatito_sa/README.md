@@ -1,3 +1,267 @@
+# Ejecucion del proyecto -----------------------------
+
+# Paso a paso para la ejecucion
+# Cómo ejecutar el proyecto en su estado actual
+
+Actualmente el proyecto permite:
+
+* Validar la conexión con Google Gemini.
+* Validar el modelo de embeddings.
+* Cargar y fragmentar las tres bases de conocimiento.
+* Generar los tres índices vectoriales independientes en ChromaDB.
+
+Los agentes, el orquestador y la interfaz Streamlit todavía se encuentran en desarrollo.
+
+## 1. Clonar el repositorio
+
+```bash
+git clone https://github.com/DarkorZ/ProyectoFinal_IA_Netlife.git
+```
+
+Entrar en la carpeta del proyecto:
+
+```bash
+cd ProyectoFinal_IA_Netlife/AgentePatito_sa
+```
+
+## 2. Crear el entorno virtual
+
+```bash
+python -m venv .venv
+```
+
+Activar el entorno virtual en PowerShell:
+
+```powershell
+.\.venv\Scripts\Activate.ps1
+```
+
+Cuando el entorno esté activo, la terminal mostrará:
+
+```text
+(.venv)
+```
+
+## 3. Actualizar pip y certificados
+
+```bash
+python -m pip install --upgrade pip certifi
+```
+
+En caso de errores SSL:
+
+```powershell
+python -m pip install --upgrade pip certifi `
+  --trusted-host pypi.org `
+  --trusted-host files.pythonhosted.org
+```
+
+También se recomienda verificar que la fecha y hora del computador sean correctas.
+
+## 4. Instalar las dependencias
+
+```bash
+pip install -r requirements.txt
+```
+
+Comprobar las librerías principales:
+
+```bash
+pip show langchain
+pip show langchain-google-genai
+pip show langchain-chroma
+```
+
+## 5. Configurar la API de Google
+
+Crear el archivo:
+
+```text
+.env
+```
+
+en la raíz de `AgentePatito_sa`.
+
+Agregar:
+
+```env
+GOOGLE_API_KEY=SU_API_KEY_DE_GOOGLE
+```
+
+No se deben utilizar comillas ni espacios alrededor del signo igual.
+
+Ejemplo:
+
+```env
+GOOGLE_API_KEY=AIza...
+```
+
+El archivo `.env` está protegido mediante `.gitignore` y no debe subirse al repositorio.
+
+También se encuentra disponible:
+
+```text
+.env.example
+```
+
+como referencia de configuración.
+
+## 6. Verificar los documentos
+
+Los siguientes archivos deben existir dentro de `data/`:
+
+```text
+data/
+├── 01_Catalogo_Productos_Precios.txt
+├── 02_Politicas_Comerciales_Descuentos_Credito.txt
+└── 03_Proceso_Ventas_CRM.txt
+```
+
+## 7. Probar la conexión con Gemini
+
+```bash
+python tests/test_conexion.py
+```
+
+Esta prueba valida:
+
+* La variable `GOOGLE_API_KEY`.
+* La existencia de los documentos.
+* La conexión con Gemini.
+* La respuesta del modelo de chat.
+* La generación de embeddings.
+* La latencia de las solicitudes.
+
+Resultado esperado:
+
+```text
+TODAS LAS PRUEBAS FINALIZARON CORRECTAMENTE
+```
+
+## 8. Probar la fragmentación
+
+```bash
+python tests/test_fragmentacion.py
+```
+
+Esta prueba:
+
+* Lee los tres documentos.
+* Los convierte en objetos `Document`.
+* Genera los fragmentos.
+* Verifica los metadatos.
+
+Resultado actual:
+
+```text
+Catálogo: 3 fragmentos
+Políticas: 4 fragmentos
+CRM: 3 fragmentos
+Total: 10 fragmentos
+```
+
+Resultado esperado:
+
+```text
+LOS TRES DOCUMENTOS SE FRAGMENTARON CORRECTAMENTE
+```
+
+## 9. Generar los índices vectoriales
+
+```bash
+python generar_indices.py
+```
+
+Este comando:
+
+1. Carga los documentos.
+2. Aplica la estrategia de fragmentación.
+3. Genera embeddings con Google Gemini.
+4. Limpia índices anteriores.
+5. Crea tres colecciones independientes en ChromaDB.
+6. Guarda los índices localmente.
+
+Los índices se almacenan en:
+
+```text
+vectorstores/
+├── catalogo/
+├── politicas/
+└── crm/
+```
+
+Colecciones generadas:
+
+```text
+patito_catalogo
+patito_politicas
+patito_crm
+```
+
+Resultado actual:
+
+```text
+Catálogo: 3 fragmentos almacenados
+Políticas: 4 fragmentos almacenados
+CRM: 3 fragmentos almacenados
+Total: 10 fragmentos
+```
+
+Resultado esperado:
+
+```text
+LOS TRES ÍNDICES SE GENERARON CORRECTAMENTE
+```
+
+## 10. Cuándo volver a generar los índices
+
+Se debe ejecutar nuevamente:
+
+```bash
+python generar_indices.py
+```
+
+cuando ocurra alguno de los siguientes cambios:
+
+* Se modifica uno de los documentos TXT.
+* Se cambia `CHUNK_SIZE`.
+* Se cambia `CHUNK_OVERLAP`.
+* Se cambia el modelo de embeddings.
+* Se eliminan las carpetas de `vectorstores`.
+* Se instala el proyecto en otro computador.
+
+## Estado funcional actual
+
+En este checkpoint se encuentra disponible:
+
+```text
+✓ Configuración del entorno
+✓ Protección de credenciales
+✓ Conexión con Gemini
+✓ Generación de embeddings
+✓ Carga de documentos
+✓ Fragmentación
+✓ Metadatos de trazabilidad
+✓ Generación de tres índices Chroma
+```
+
+Todavía no se encuentran disponibles:
+
+```text
+✗ Consultas semánticas desde la aplicación
+✗ Agentes especializados
+✗ Agente orquestador
+✗ Registro de oportunidades
+✗ Agente multimodal
+✗ Interfaz Streamlit
+```
+
+Estas funcionalidades se incorporarán en los siguientes bloques del desarrollo.
+
+
+
+# --------------------------------------
+
 # Proyecto Final IA — Agente Comercial Patito S.A.
 
 ## Descripción general
