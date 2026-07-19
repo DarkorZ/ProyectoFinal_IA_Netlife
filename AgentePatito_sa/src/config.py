@@ -169,3 +169,21 @@ def crear_directorios_necesarios() -> None:
 
     for directorio in directorios:
         directorio.mkdir(parents=True, exist_ok=True)
+
+
+# ============================================================
+# LÍMITES OPERATIVOS
+# ============================================================
+
+# Máximo de caracteres permitidos en una consulta individual.
+MAX_CONSULTA_CARACTERES = 5000
+
+# Límite utilizado normalmente por el orquestador.
+RECURSION_LIMIT_DEFAULT = 20
+
+# Máximo permitido desde una interfaz o función externa.
+RECURSION_LIMIT_MAX = 30
+
+# Cantidad de tools que se considera normal en una ejecución.
+# Por ahora se utiliza para monitoreo y advertencias.
+MAX_TOOL_CALLS_ESPERADAS = 8

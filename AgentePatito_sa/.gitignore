@@ -13,7 +13,7 @@ __pycache__/
 # VS Code
 .vscode/
 
-# Índices vectoriales generados
+# Índices vector    iales generados
 vectorstores/catalogo/*
 vectorstores/politicas/*
 vectorstores/crm/*
@@ -30,3 +30,11 @@ outputs/registro_oportunidades.txt
 *.log
 .DS_Store
 Thumbs.db
+
+# Registros generados por el agente de acción
+outputs/*.txt
+!outputs/.gitkeep
+
+# Trazabilidad y monitoreo generados durante la ejecución
+outputs/trazabilidad/*.jsonl
+!outputs/trazabilidad/.gitkeep
